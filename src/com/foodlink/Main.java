@@ -4,6 +4,10 @@ import com.foodlink.dao.DonorDAO;
 import com.foodlink.model.Donor;
 import com.foodlink.dao.ReceiverDAO;
 import com.foodlink.model.Receiver;
+import com.foodlink.dao.FoodDAO;
+import com.foodlink.model.FoodItem;
+
+import java.time.LocalDate;
 
 import java.util.Scanner;
 
@@ -14,6 +18,7 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         DonorDAO donorDAO = new DonorDAO();
         ReceiverDAO receiverDAO = new ReceiverDAO();
+        FoodDAO foodDAO = new FoodDAO();
 
         while (true) {
 
@@ -26,7 +31,11 @@ public class Main {
             System.out.println("6. View All Receivers");
             System.out.println("7. Update Receiver");
             System.out.println("8. Delete Receiver");
-            System.out.println("9. Exit");
+            System.out.println("9. Add Food");
+            System.out.println("10. View All food");
+            System.out.println("11. Update Food");
+            System.out.println("12. Delete Food");
+            System.out.println("13. Exit");
 
             System.out.print("Enter your choice: ");
             int choice = scanner.nextInt();
@@ -148,6 +157,77 @@ public class Main {
                     break;
 
                 case 9:
+                    System.out.print("Enter food name: ");
+                    String foodName = scanner.nextLine();
+
+                    System.out.print("Enter quantity: ");
+                    int quantity = scanner.nextInt();
+                    scanner.nextLine();
+
+                    System.out.print("Enter unit (plates/kg/litre): ");
+                    String unit = scanner.nextLine();
+
+                    System.out.print("Enter food type: ");
+                    String foodType = scanner.nextLine();
+
+                    System.out.print("Enter expiry date (YYYY-MM-DD): ");
+                    LocalDate expiryDate = LocalDate.parse(scanner.nextLine());
+
+                    FoodItem food = new FoodItem(
+                            foodName,
+                            quantity,
+                            unit,
+                            foodType,
+                            expiryDate
+                    );
+
+                    foodDAO.addFood(food);
+                    break;
+
+                case 10:
+                    foodDAO.viewAllFood();
+                    break;
+
+                case 11:
+                    System.out.print("Enter food ID to update: ");
+                    int updateFoodId = scanner.nextInt();
+                    scanner.nextLine();
+
+                    System.out.print("Enter new food name: ");
+                    String newFoodName = scanner.nextLine();
+
+                    System.out.print("Enter new quantity: ");
+                    int newQuantity = scanner.nextInt();
+                    scanner.nextLine();
+
+                    System.out.print("Enter new unit: ");
+                    String newUnit = scanner.nextLine();
+
+                    System.out.print("Enter new food type: ");
+                    String newFoodType = scanner.nextLine();
+
+                    System.out.print("Enter new expiry date (YYYY-MM-DD): ");
+                    LocalDate newExpiryDate = LocalDate.parse(scanner.nextLine());
+
+                    foodDAO.updateFood(
+                            updateFoodId,
+                            newFoodName,
+                            newQuantity,
+                            newUnit,
+                            newFoodType,
+                            newExpiryDate
+                    );
+                    break;
+
+                case 12:
+                    System.out.print("Enter food ID to delete: ");
+                    int deleteFoodId = scanner.nextInt();
+                    scanner.nextLine();
+
+                    foodDAO.deleteFood(deleteFoodId);
+                    break;
+
+                case 13:
                     System.out.println("Thank you for using FoodLink!");
                     scanner.close();
                     return;

@@ -6,6 +6,8 @@ import com.foodlink.dao.ReceiverDAO;
 import com.foodlink.model.Receiver;
 import com.foodlink.dao.FoodDAO;
 import com.foodlink.model.FoodItem;
+import com.foodlink.dao.DonationDAO;
+import com.foodlink.model.Donation;
 
 import java.time.LocalDate;
 
@@ -19,6 +21,7 @@ public class Main {
         DonorDAO donorDAO = new DonorDAO();
         ReceiverDAO receiverDAO = new ReceiverDAO();
         FoodDAO foodDAO = new FoodDAO();
+        DonationDAO donationDAO = new DonationDAO();
 
         while (true) {
 
@@ -35,7 +38,11 @@ public class Main {
             System.out.println("10. View All food");
             System.out.println("11. Update Food");
             System.out.println("12. Delete Food");
-            System.out.println("13. Exit");
+            System.out.println("13. Add Donation");
+            System.out.println("14. View All Donations");
+            System.out.println("15. update Donation Status");
+            System.out.println("16. Delete Donations");
+            System.out.println("17. Exit");
 
             System.out.print("Enter your choice: ");
             int choice = scanner.nextInt();
@@ -228,6 +235,57 @@ public class Main {
                     break;
 
                 case 13:
+                    System.out.print("Enter donor ID: ");
+                    int donorId = scanner.nextInt();
+
+                    System.out.print("Enter food ID: ");
+                    int foodId = scanner.nextInt();
+
+                    System.out.print("Enter receiver ID: ");
+                    int receiverId = scanner.nextInt();
+                    scanner.nextLine();
+
+                    System.out.print("Enter donation date (YYYY-MM-DD): ");
+                    LocalDate donationDate = LocalDate.parse(scanner.nextLine());
+
+                    System.out.print("Enter status: ");
+                    String status = scanner.nextLine();
+
+                    Donation donation = new Donation(
+                            donorId,
+                            foodId,
+                            receiverId,
+                            donationDate,
+                            status
+                    );
+
+                    donationDAO.addDonation(donation);
+                    break;
+
+                case 14:
+                    donationDAO.viewAllDonations();
+                    break;
+
+                case 15:
+                    System.out.print("Enter donation ID: ");
+                    int donationId = scanner.nextInt();
+                    scanner.nextLine();
+
+                    System.out.print("Enter new status: ");
+                    String newStatus = scanner.nextLine();
+
+                    donationDAO.updateDonationStatus(donationId, newStatus);
+                    break;
+
+                case 16:
+                    System.out.print("Enter donation ID to delete: ");
+                    int deleteDonationId = scanner.nextInt();
+                    scanner.nextLine();
+
+                    donationDAO.deleteDonation(deleteDonationId);
+                    break;
+
+                case 17:
                     System.out.println("Thank you for using FoodLink!");
                     scanner.close();
                     return;
@@ -236,5 +294,6 @@ public class Main {
                     System.out.println("Invalid choice!");
             }
         }
+
     }
 }

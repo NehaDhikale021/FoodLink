@@ -1,8 +1,160 @@
 package com.foodlink;
 
+import com.foodlink.dao.DonorDAO;
+import com.foodlink.model.Donor;
+import com.foodlink.dao.ReceiverDAO;
+import com.foodlink.model.Receiver;
+
+import java.util.Scanner;
+
 public class Main {
 
     public static void main(String[] args) {
-        System.out.println("Welcome to FoodLink!");
+
+        Scanner scanner = new Scanner(System.in);
+        DonorDAO donorDAO = new DonorDAO();
+        ReceiverDAO receiverDAO = new ReceiverDAO();
+
+        while (true) {
+
+            System.out.println("\n===== FOODLINK =====");
+            System.out.println("1. Add Donor");
+            System.out.println("2. View All Donors");
+            System.out.println("3. Update Donor");
+            System.out.println("4. Delete Donor");
+            System.out.println("5. Add Receiver");
+            System.out.println("6. View All Receivers");
+            System.out.println("7. Update Receiver");
+            System.out.println("8. Delete Receiver");
+            System.out.println("9. Exit");
+
+            System.out.print("Enter your choice: ");
+            int choice = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (choice) {
+
+                case 1:
+                    System.out.print("Enter donor name: ");
+                    String name = scanner.nextLine();
+
+                    System.out.print("Enter phone: ");
+                    String phone = scanner.nextLine();
+
+                    System.out.print("Enter email: ");
+                    String email = scanner.nextLine();
+
+                    System.out.print("Enter address: ");
+                    String address = scanner.nextLine();
+
+                    Donor donor = new Donor(name, phone, email, address);
+                    donorDAO.addDonor(donor);
+                    break;
+
+                case 2:
+                    donorDAO.viewAllDonors();
+                    break;
+
+                case 3:
+                    System.out.print("Enter donor ID to update: ");
+                    int updateId = scanner.nextInt();
+                    scanner.nextLine();
+
+                    System.out.print("Enter new name: ");
+                    String newName = scanner.nextLine();
+
+                    System.out.print("Enter new phone: ");
+                    String newPhone = scanner.nextLine();
+
+                    System.out.print("Enter new email: ");
+                    String newEmail = scanner.nextLine();
+
+                    System.out.print("Enter new address: ");
+                    String newAddress = scanner.nextLine();
+
+                    donorDAO.updateDonor(
+                            updateId, newName, newPhone,
+                            newEmail, newAddress
+                    );
+                    break;
+
+                case 4:
+                    System.out.print("Enter donor ID to delete: ");
+                    int deleteId = scanner.nextInt();
+                    scanner.nextLine();
+
+                    donorDAO.deleteDonor(deleteId);
+                    break;
+
+                case 5:
+                    System.out.print("Enter receiver name: ");
+                    String receiverName = scanner.nextLine();
+
+                    System.out.print("Enter phone: ");
+                    String receiverPhone = scanner.nextLine();
+
+                    System.out.print("Enter email: ");
+                    String receiverEmail = scanner.nextLine();
+
+                    System.out.print("Enter address: ");
+                    String receiverAddress = scanner.nextLine();
+
+                    Receiver receiver = new Receiver(
+                            receiverName,
+                            receiverPhone,
+                            receiverEmail,
+                            receiverAddress
+                    );
+
+                    receiverDAO.addReceiver(receiver);
+                    break;
+
+                case 6:
+                    receiverDAO.viewAllReceivers();
+                    break;
+
+                case 7:
+                    System.out.print("Enter receiver ID to update: ");
+                    int updateReceiverId = scanner.nextInt();
+                    scanner.nextLine();
+
+                    System.out.print("Enter new name: ");
+                    String newReceiverName = scanner.nextLine();
+
+                    System.out.print("Enter new phone: ");
+                    String newReceiverPhone = scanner.nextLine();
+
+                    System.out.print("Enter new email: ");
+                    String newReceiverEmail = scanner.nextLine();
+
+                    System.out.print("Enter new address: ");
+                    String newReceiverAddress = scanner.nextLine();
+
+                    receiverDAO.updateReceiver(
+                            updateReceiverId,
+                            newReceiverName,
+                            newReceiverPhone,
+                            newReceiverEmail,
+                            newReceiverAddress
+                    );
+                    break;
+
+                case 8:
+                    System.out.print("Enter receiver ID to delete: ");
+                    int deleteReceiverId = scanner.nextInt();
+                    scanner.nextLine();
+
+                    receiverDAO.deleteReceiver(deleteReceiverId);
+                    break;
+
+                case 9:
+                    System.out.println("Thank you for using FoodLink!");
+                    scanner.close();
+                    return;
+
+                default:
+                    System.out.println("Invalid choice!");
+            }
+        }
     }
 }

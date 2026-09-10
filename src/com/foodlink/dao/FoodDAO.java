@@ -1,4 +1,5 @@
 package com.foodlink.dao;
+import java.time.LocalDate;
 
 import com.foodlink.DBConnection;
 import com.foodlink.model.FoodItem;
@@ -10,6 +11,15 @@ import java.sql.SQLException;
 public class FoodDAO {
 
     public void addFood(FoodItem food) {
+        if (food.getQuantity() <= 0) {
+            System.out.println("Quantity must be greater than 0!");
+            return;
+        }
+
+        if (food.getExpiryDate().isBefore(LocalDate.now())) {
+            System.out.println("Expiry date cannot be in the past!");
+            return;
+        }
 
         String sql = "INSERT INTO food_items " +
                 "(food_name, quantity, unit, food_type, expiry_date) " +

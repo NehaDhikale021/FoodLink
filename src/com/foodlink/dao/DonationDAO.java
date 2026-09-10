@@ -29,8 +29,7 @@ public class DonationDAO {
             System.out.println("Donation added successfully!");
 
         } catch (SQLException e) {
-            System.out.println("Error adding donation!");
-            e.printStackTrace();
+            System.out.println("Invalid donor, food, or receiver ID!");
         }
     }
 
